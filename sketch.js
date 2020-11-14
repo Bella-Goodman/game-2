@@ -4,9 +4,14 @@ let cnv;
 let points = 0;
 let w = 600;
 let h = 600;
+let player;
+let coin;
 
 function setup() {
   cnv = createCanvas(w, h);
+
+  player = new Player();
+  coin = new Coin();
 }
 
 function draw() {
@@ -28,6 +33,11 @@ function draw() {
   }
 }
 
+function keyPressed(){
+  if (keyCode == 'LEFT_ARROW'){
+    play.direction = 'left';
+  }
+}
 
 function canvasClicked(){
 
@@ -51,7 +61,13 @@ function titleMouseClicked(){
 
 function level1(){
   background(50, 150, 200);
-  text('click for points', w/2, h - 30);
+//  text('click for points', w/2, h - 30);
+
+  player.display();
+  player.move();
+
+  coin.display();
+  coin.move();
 }
 
 function level1MouseClicked(){
