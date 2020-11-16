@@ -1,17 +1,18 @@
 'use strict';
+
 let state = 'title';
 let cnv;
 let points = 0;
 let w = 600;
 let h = 600;
 let player;
-let coin;
+let coins = [];
 
 function setup() {
   cnv = createCanvas(w, h);
 
   player = new Player();
-  coin = new Coin();
+  coins.push(new Coins());
 }
 
 function draw() {
@@ -33,9 +34,17 @@ function draw() {
   }
 }
 
-function keyPressed(){
-  if (keyCode == 'LEFT_ARROW'){
-    play.direction = 'left';
+function keyPressed() {
+  if (keyCode == LEFT_ARROW) {
+    play.direction = 'left'
+  } else if (keyCode == RIGHT_ARROW) {
+    play.direction = 'right'
+  } else if (keyCode == UP_ARROW) {
+    play.direction = 'up'
+  } else if (keyCode == DOWN_ARROW) {
+    play.direction = 'down'
+  } else if (key = ' ') {
+    player.direction = 'still';
   }
 }
 
@@ -66,17 +75,33 @@ function level1(){
   player.display();
   player.move();
 
-  coin.display();
-  coin.move();
+  for (let i = 0; i < coins.length; i++){
+    coins[i].display();
+    coins[i].move();
+
+
+  }
+
+  //check for collision, if there is a collision increase points by 1
+  //iterate backwards through array
+  for (let i = coins.length - 1; i >= 0; i --){
+  if(dist(player.x, player.y, coins[0].x, coins[0].y) <= (player.r + coins[0].r) / 2){
+    points++;
+    console.log(points);
+    coins.splice(i, 1);
+  }
+}
+
+  text(`points: ${points}`, w/4, h - 30);
 }
 
 function level1MouseClicked(){
-  points++;
-  console.log('points = ' + points);
-
-  if (points >= 10){
-    state = 'you win';
-  }
+  // points++;
+  // console.log('points = ' + points);
+  //
+  // if (points >= 10){
+  //   state = 'you win';
+  // }
 }
 
   function youWin(){
